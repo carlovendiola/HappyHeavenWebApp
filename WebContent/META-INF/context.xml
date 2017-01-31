@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+    <Resource name="jdbc/hh_group"
+        auth="Container"
+        driverClassName="com.mysql.jdbc.Driver"
+        type="javax.sql.DataSource"
+        username="root"
+        password="happyheaven"
+        url="jdbc:mysql://happyheavendb.cvy8crucpdjq.us-west-2.rds.amazonaws.com:3306/hh_group"/>
+</Context>
