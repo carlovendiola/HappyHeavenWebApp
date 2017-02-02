@@ -130,27 +130,28 @@ public class TripController {
 		String[] requestTripIds;
 		
 		
-		List<Integer> tripIdList;
+		List<Integer> tripIdList = new ArrayList<Integer>();
 		Boolean isDeleted = false;
-		if(!requestTripId.contains(",")){
+		if (null != requestTripId && "".equalsIgnoreCase(requestTripId)){
+			if(!requestTripId.contains(",")){
+				
+				
+				tripIdList.add(Integer.valueOf(requestTripId));
+				
 			
-			tripIdList = new ArrayList<Integer>();
-			tripIdList.add(Integer.valueOf(requestTripId));
-			
-		
-		}
-		else{
-			
-			requestTripIds = requestTripId.split(",");
-			Integer[] requestTripIdsInt = new Integer[requestTripIds.length];
-			
-			for(int i=0; i < requestTripIds.length; i++){
-				requestTripIdsInt[i] = Integer.valueOf((requestTripIds)[i]);
 			}
-			
-			tripIdList = Arrays.asList(requestTripIdsInt);
+			else{
+				
+				requestTripIds = requestTripId.split(",");
+				Integer[] requestTripIdsInt = new Integer[requestTripIds.length];
+				
+				for(int i=0; i < requestTripIds.length; i++){
+					requestTripIdsInt[i] = Integer.valueOf((requestTripIds)[i]);
+				}
+				
+				tripIdList = Arrays.asList(requestTripIdsInt);
+			}
 		}
-		
 		isDeleted = tripDao.deleteTrip(tripIdList);
 		User user = (User) session.getAttribute("user");
 		
