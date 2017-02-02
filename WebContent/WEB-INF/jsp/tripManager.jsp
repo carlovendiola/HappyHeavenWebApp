@@ -117,7 +117,37 @@
 				    	$("#id").val(tripId);
 				    	alert($("#id").val());
 				    	
-				    	//$("#deleteTripForm").submit();
+				    	$("#deleteTripForm").submit();
+				    });
+				    
+				    $("#delete-selected-btn").click(function(){
+				    	
+				    	
+				    	var all_tr_in_table = $("#tableScheduledTrip tr");
+				    	
+				    	
+				    	var checkboxes = $(".tripcheck");
+				    	
+				    	var j = 0;
+				    	var tripIdArray = "";
+				    	
+				    	for(i=0; i < checkboxes.length; i++){
+				    		
+				    		if(checkboxes[i].checked == true){
+				    			
+				    			
+				    			var currTripId = $(checkboxes[i]).closest('tr').find(".tripId").find("a").html();
+				    			tripIdArray = tripIdArray  + currTripId + ",";
+				    			
+				    			$("#id").val(tripIdArray);
+				    			
+				    			
+				    
+				    		}
+				    		
+				    	}
+				    	alert($("#id").val());
+				    	$("#deleteTripForm").submit();
 				    });
 				    
 				   
@@ -360,7 +390,8 @@
                     <!-- /.col-lg-8 -->
                    <form action="deleteTrip.html" method="post" id="deleteTripForm">
                    		<input type="hidden" name="tripId" value="" id="id"/>
-                   </form>	
+                   </form>
+                  
                     <div class="col-lg-12 tabContent" id="scheduledTripTable">
                         <div class="panel panel-primary">
                             <div class="panel-heading">
@@ -371,7 +402,7 @@
                             <div class="table-responsive">
 
                 				
-					              <table class="table table-bordred table-striped">
+					              <table class="table table-bordred table-striped" id="tableScheduledTrip">
 					                   
 					                 <thead>
 					                   <tr>
@@ -478,7 +509,7 @@
 										<input type="submit" class="btn btn-lg btn-success btn-block" value="Create New Trip" onclick="javascript:addTripPopup()"/>
 									</div>
 									<div class="col-xs-2 col-sm-2 col-md-2">
-										<input type="submit" class="btn btn-lg btn-danger btn-block" value="Delete Selected"/>
+										<input type="submit" class="btn btn-lg btn-danger btn-block" value="Delete Selected" id="delete-selected-btn"/>
 									</div>
 				                </div>
                         </div>

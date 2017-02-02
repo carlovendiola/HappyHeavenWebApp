@@ -3,6 +3,8 @@ package com.happyheaven.controller;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -121,7 +123,39 @@ public class TripController {
 		
 		ModelAndView model = null;
 		
-		Boolean isDeleted = tripDao.deleteTrip(Integer.valueOf(request.getParameter("tripId")));
+		System.out.println(request.getParameter("tripId"));
+		
+		HttpSession session = request.getSession();
+		String requestTripId = request.getParameter("tripId");
+		String[] requestTripIds;
+		
+		
+		List<Integer> tripIdList;
+		Boolean isDeleted = false;
+		if(!requestTripId.contains(",")){
+			
+			tripIdList = new ArrayList<Integer>();
+			tripIdList.add(Integer.valueOf(requestTripId));
+			
+		
+		}
+		else{
+			
+			requestTripIds = requestTripId.split(",");
+			Integer[] requestTripIdsInt = new Integer[requestTripIds.length];
+			
+			for(int i=0; i < requestTripIds.length; i++){
+				requestTripIdsInt[i] = Integer.valueOf((requestTripIds)[i]);
+			}
+			
+			tripIdList = Arrays.asList(requestTripIdsInt);
+		}
+		
+		isDeleted = tripDao.deleteTrip(tripIdList);
+		User user = (User) session.getAttribute("user");
+		
+		List<Trip> trips = tripDao.searchTripsByUser(user);
+		
 		
 		if(isDeleted){
 			System.out.println("Trip Successfully Deleted!");
@@ -131,6 +165,7 @@ public class TripController {
 		}
 		
 		model = new ModelAndView("tripManager");
+		model.addObject("trips", trips);
 		return model;
 	}
 	

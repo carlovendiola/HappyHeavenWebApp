@@ -14,7 +14,7 @@ public interface TripDao {
 	
 	public Integer addOrUpdateTrip(Trip trip);
 	
-	public Boolean deleteTrip(Integer tripId);
+	public Boolean deleteTrip(List<Integer> tripId);
 	
 	public Set<User> findAllUsersInTrip(Integer tripId);
 	

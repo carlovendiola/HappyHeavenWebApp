@@ -54,10 +54,13 @@ public class UserController{
 		
 		ModelAndView model = null;
 		
-		User user = null;
+		User user = new User();
 		
-		user = userDao.searchUserByUserName(userBean.getUserName()).get(0);
+		List<User> userList = userDao.searchUserByUserName(userBean.getUserName());
 		
+		if(null != userList && !userList.isEmpty()) {
+			user = userDao.searchUserByUserName(userBean.getUserName()).get(0);
+		}
 		
 		user = mapUserBeanToUser(user, userBean);
 		

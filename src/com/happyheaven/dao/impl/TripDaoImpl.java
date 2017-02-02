@@ -67,23 +67,19 @@ public class TripDaoImpl implements TripDao{
 	}
 
 	@Override
-	@SuppressWarnings("unchecked")
-	public Boolean deleteTrip(Integer tripId) {
+	public Boolean deleteTrip(List<Integer> tripIds) {
 		
 		SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		Criteria criteria = session.createCriteria(Trip.class);
-		Query query = session.createQuery("FROM Trip trip WHERE :id = tripId");
-		query.setParameter("id", tripId);
+		Query query = session.createQuery("DELETE Trip WHERE idtrip in (:ids)");
+		query.setParameterList("ids", tripIds);
 		
+		int result = query.executeUpdate();
 		Boolean isDeleted = false;
 		
-		List<Trip> trips = criteria.list();
-		if(null != trips && !trips.isEmpty()){
-			Trip trip = trips.get(0);
-		
-			session.delete(trip);
+		if(result != 0){
+			
 			isDeleted = true;
 			
 		} else {
