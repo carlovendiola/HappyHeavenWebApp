@@ -132,7 +132,7 @@ public class TripController {
 		
 		List<Integer> tripIdList = new ArrayList<Integer>();
 		Boolean isDeleted = false;
-		if (null != requestTripId && "".equalsIgnoreCase(requestTripId)){
+		if (null != requestTripId && !"".equalsIgnoreCase(requestTripId)){
 			if(!requestTripId.contains(",")){
 				
 				
@@ -151,8 +151,10 @@ public class TripController {
 				
 				tripIdList = Arrays.asList(requestTripIdsInt);
 			}
+			
+			isDeleted = tripDao.deleteTrip(tripIdList);
 		}
-		isDeleted = tripDao.deleteTrip(tripIdList);
+		
 		User user = (User) session.getAttribute("user");
 		
 		List<Trip> trips = tripDao.searchTripsByUser(user);
