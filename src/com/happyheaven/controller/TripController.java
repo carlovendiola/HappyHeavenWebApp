@@ -18,6 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.happyheaven.dao.TripDao;
@@ -52,6 +54,29 @@ public class TripController {
 		
 		List<Trip> trips = tripDao.searchTripsByUser(user);
 		model.addObject("trips", trips);
+		return model;
+	}
+	
+	@RequestMapping(value = "/viewTripDetails", method = RequestMethod.GET)
+	public ModelAndView viewTripDetails(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("tripBean") TripBean tripBean, @RequestParam("tripDetailId") String tripDetailId){
+		
+		ModelAndView model = new ModelAndView("tripDetail");
+		HttpSession session = request.getSession();
+		Integer tripId = Integer.valueOf(tripDetailId);
+		
+		List<Trip> trips = tripDao.searchTripByTripId(tripId);
+		Trip trip = trips.get(0);
+		tripBean.setTripName(trip.getTripName());
+		tripBean.setTripDescription(trip.getTripDescription());
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		String tripStartDateString = sdf.format(trip.getTripStartDate());
+		tripBean.setTripStartDate(tripStartDateString);
+		String tripEndDateString = sdf.format(trip.getTripEndDate());
+		tripBean.setTripEndDate(tripEndDateString);
+		
+		model.addObject("trip", trip);
+		
 		return model;
 	}
 	

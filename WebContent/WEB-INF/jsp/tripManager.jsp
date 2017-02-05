@@ -54,6 +54,17 @@
 			window.open("addTripPopup.html", "Add Trip", "location=no,height=700,width=700,scrollbars=yes,status=yes");
 		};
 		
+		function addTripDetailPopup(){
+			
+			//var tripDetailIdPopup = popup.document.getElementById("tripDetailId");
+			//tripDetailIdPopup.value = document.getElementById("tripDetailId").value;
+			
+			//alert(tripDetailIdPopup);
+			
+			
+			
+		};
+		
 		function openTab() {
 		    // Declare all variables
 		    var i, tabContent, tabLinks;
@@ -115,9 +126,32 @@
 				    $(".del-btn").click(function(){
 				    	var tripId = $(this).closest('tr').find(".tripId").find("a").html();
 				    	$("#id").val(tripId);
-				    	alert($("#id").val());
 				    	
-				    	$("#deleteTripForm").submit();
+				    	confirm("Are you sure you want to delete this Trip?");
+				    	
+				    	if(confirm){
+				    		$("#deleteTripForm").submit();
+				    	}
+				    });
+				    
+				    $(".tripId").click(function(){
+				    	var tripId = $(this).find("a").html();
+	
+				    	var url = "viewTripDetails.html?tripDetailId=";
+						var requestUrl = url.concat(tripId);
+						popup = window.open(requestUrl, "Trip Details", "location=no,height=700,width=700,scrollbars=yes,status=yes");
+						
+				    	
+				    });
+				    
+				    $(".tripName").click(function(){
+				    	var tripId = $(this).closest('tr').find(".tripId").find("a").html();
+	
+				    	var url = "viewTripDetails.html?tripDetailId=";
+						var requestUrl = url.concat(tripId);
+						popup = window.open(requestUrl, "Trip Details", "location=no,height=700,width=700,scrollbars=yes,status=yes");
+						
+				    	
 				    });
 				    
 				    $("#delete-selected-btn").click(function(){
@@ -146,8 +180,12 @@
 				    		}
 				    		
 				    	}
-				    	alert($("#id").val());
-				    	$("#deleteTripForm").submit();
+				    	
+				    	confirm("Are you sure you want to delete selected trips?");
+				    	
+				    	if(confirm){
+				    		$("#deleteTripForm").submit();
+				    	}
 				    });
 				    
 				   
@@ -391,6 +429,9 @@
                    <form action="deleteTrip.html" method="post" id="deleteTripForm">
                    		<input type="hidden" name="tripId" value="" id="id"/>
                    </form>
+                   <form action="viewTripDetails.html" method="get" id="tripDetailForm" target="Trip Details">
+                   		<input type="hidden" name="tripDetailId" value="" id="tripDetailId"/>
+                   </form>
                   
                     <div class="col-lg-12 tabContent" id="scheduledTripTable">
                         <div class="panel panel-primary">
@@ -424,7 +465,7 @@
 										   	<tr>
 										   		<td><input type="checkbox" class="checkthis tripcheck" /></td>
 										   		<td class="tripId"><a href="#"><c:out value="${trip.id}"></c:out></a></td>
-										   		<td><a href="#"><c:out value="${trip.tripName }"></c:out></a></td>
+										   		<td class="tripName"><a href="#"><c:out value="${trip.tripName }"></c:out></a></td>
 										   		<td><fmt:formatDate value="${trip.tripStartDate}" pattern="MM-dd-yyyy" /></td>
 										   		<td><fmt:formatDate value="${trip.tripEndDate}" pattern="MM-dd-yyyy" /></td>
 										   		<td><c:out value="${trip.tripOrganizer }"></c:out></td>

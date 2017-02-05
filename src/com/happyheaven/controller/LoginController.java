@@ -70,11 +70,11 @@ public class LoginController {
 	}
 	
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
-	public ModelAndView executeLogout(HttpServletRequest request, HttpServletResponse response){
+	public String executeLogout(HttpServletRequest request, HttpServletResponse response){
 		
-		ModelAndView model = new ModelAndView("logout");
-		
-		return model;
+		HttpSession session = request.getSession();
+		session.invalidate();
+		return "redirect:/login.html";
 		
 	}
 	

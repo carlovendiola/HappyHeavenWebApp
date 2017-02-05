@@ -39,6 +39,9 @@ public class TripDetail {
 	@Column(name = "idtrip")
 	private Integer tripId;
 	
+	@Column(name = "iduser")
+	private Integer userId;
+	
 	@Column(name = "departure_location")
 	private String departureLocation;
 	
@@ -110,6 +113,14 @@ public class TripDetail {
 
 	public void setTripId(Integer tripId) {
 		this.tripId = tripId;
+	}
+	
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 
 	public String getDepartureLocation() {
