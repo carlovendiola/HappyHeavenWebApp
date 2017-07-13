@@ -1,5 +1,7 @@
 package com.happyheaven.controller;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.happyheaven.dao.UserDao;
 import com.happyheaven.model.User;
+import com.happyheaven.string.util.StringUtil;
 import com.happyheaven.viewBean.UserBean;
 
 
@@ -83,6 +86,9 @@ public class UserController{
 	 * the data does not change. */
 	private User mapUserBeanToUser(User user, UserBean userBean)
 	{
+		String hashedPasswd;
+		
+		hashedPasswd = StringUtil.hashString(userBean.getPassword());
 		
 		if(null != userBean.getEmail() && !"".equals(userBean.getEmail())){
 			user.setEmail(userBean.getEmail());
@@ -101,7 +107,7 @@ public class UserController{
 		}
 		
 		if(null != userBean.getPassword() && !"".equals(userBean.getPassword())){
-			user.setPassword(userBean.getPassword());
+			user.setPassword(hashedPasswd);
 		}
 		
 		if(null != userBean.getRole() && !"".equals(userBean.getRole())){
@@ -111,6 +117,7 @@ public class UserController{
 		return user;
 		
 	}
+	
 	
 	@RequestMapping(value="/deleteUser")
 	public ModelAndView deleteUser(HttpServletRequest request, HttpServletResponse response, @ModelAttribute("userBean") UserBean userBean)

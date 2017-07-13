@@ -22,12 +22,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.conducivetech.cache.airports.v1.AirportsService;
+import com.conducivetech.cache.airports.v1.AirportsV1SoapService;
 import com.happyheaven.dao.TripDao;
 import com.happyheaven.dao.UserDao;
 import com.happyheaven.model.Trip;
 import com.happyheaven.model.User;
 import com.happyheaven.service.UserService;
 import com.happyheaven.viewBean.TripBean;
+
 
 @Controller
 public class TripController {
@@ -54,7 +57,13 @@ public class TripController {
 		
 		List<Trip> trips = tripDao.searchTripsByUser(user);
 		model.addObject("trips", trips);
+		
+		
+		
 		return model;
+		
+		
+		
 	}
 	
 	@RequestMapping(value = "/viewTripDetails", method = RequestMethod.GET)

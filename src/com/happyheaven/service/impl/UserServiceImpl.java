@@ -12,6 +12,7 @@ import com.happyheaven.dao.UserDao;
 import com.happyheaven.model.Trip;
 import com.happyheaven.model.User;
 import com.happyheaven.service.UserService;
+import com.happyheaven.string.util.StringUtil;
 
 public class UserServiceImpl implements UserService{
 	@Autowired
@@ -30,7 +31,9 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public boolean isValidUser(String userName, String password) throws SQLException
 	{
-		return userDao.isValidUser(userName, password);
+		String hashedPassword = StringUtil.hashString(password);
+		
+		return userDao.isValidUser(userName, hashedPassword);
 	}
 
 
